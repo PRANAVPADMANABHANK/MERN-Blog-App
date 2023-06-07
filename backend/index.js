@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
 const cors = require('cors')
 const authController = require('./controllers/authController')
+const BlogController = require('./controllers/BlogController')
 const app = express()
 
 //connect db && //connect server
@@ -25,3 +26,4 @@ mongoose.connect(process.env.MONGO_URL)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/auth',authController)
+app.use('/blog',BlogController)

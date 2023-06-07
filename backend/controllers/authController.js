@@ -1,5 +1,6 @@
 const authController = require('express').Router()
 const User = require('../models/User')
+const verifyToken = require('../middlewares/verifyToken')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -22,7 +23,7 @@ authController.post('/register', async (req,res)=>{
     }
 })
 
-authController.post('/login', async(req,res)=>{
+authController.post('/login',   async(req,res)=>{
     try {
         const user = await User.findOne({email: req.body.email})
         if(!user){

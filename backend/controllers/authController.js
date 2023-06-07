@@ -13,6 +13,10 @@ authController.post('/register', async (req,res)=>{
 
         const hashPassword = await bcrypt.hash(req.body.password, 10)
         const newUser = await User.create({...req.body, password:hashPassword})
+        const {password, ...others} = newUser._doc
+        const token = jwt.sign({id: newUser._id},process.env.JWT_SECRET,{expiresIn: '5h'})
+        return res.status(201).json({user:others, token})
+
     } catch (error) {
         return res.status(500).json(error)
     }

@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
 const cors = require('cors')
+const authController = require('./controllers/authController')
 const app = express()
 
 //connect db && //connect server
@@ -17,3 +18,10 @@ mongoose.connect(process.env.MONGO_URL)
   .catch((error) => {
     console.error('Error connecting to MongoDB:', error)
   })
+
+
+//routes
+
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use('/auth',authController)

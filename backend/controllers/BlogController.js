@@ -11,6 +11,7 @@ blogController.get('/getAll', async(req, res)=>{
     }
 })
 
+
 blogController.post('/',verifyToken, async(req,res)=>{
     try {
         const blog = await Blog.create({...req.body, userId : req.user.id})

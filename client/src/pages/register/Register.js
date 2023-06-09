@@ -2,11 +2,14 @@ import React, {useState} from 'react'
 import classes from './register.module.css'
 import {Link, useNavigate} from 'react-router-dom'
 import { request } from '../../utils/fetchApi'
+import { register } from '../../redux/authSlice'
+import { useDispatch } from 'react-redux'
 
 function Register() {
     const [username,setUsername] = useState("")
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
 
@@ -18,7 +21,9 @@ function Register() {
             const options = {'Content-Type':'application/json'}
 
             const data = await request('/auth/register', "POST", options, {username,email,password})
-            console.log(data,"data got")
+            dispatch(register(data))
+            navigate("/")
+
         } catch (error) {
             
         }

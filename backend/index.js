@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
 
 
 //routes
-
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/auth',authController)

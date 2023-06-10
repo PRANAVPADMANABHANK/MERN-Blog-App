@@ -21,5 +21,47 @@ blogController.post('/',verifyToken, async(req,res)=>{
     }
 })
 
+blogController.get('/find/:id', async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id).populate("userId", '-password')
+        blog.views += 1
+        await blog.save()
+        return res.status(200).json(blog)
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+})
+
+blogController.put("/updateBlog/:id", verifyToken, async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id)
+        if (blog.userId.toString() !== req.user.id.toString()) {
+            throw new Error("You can update only your own posts")
+        }
+
+        const updatedBlog = await Blog
+            .findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+            .populate('userId', '-password')
+
+        return res.status(200).json(updatedBlog)
+    } catch (error) {
+        return res.status(500).json(error.message)
+    }
+})
+
+blogController.delete('/deleteBlog/:id', verifyToken, async(req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id)
+        if(blog.userId.toString() !== req.user.id.toString()){
+            throw new Error("You can delete only your own posts")
+        }
+        
+        await Blog.findByIdAndDelete(req.params.id)
+
+        return res.status(200).json({msg: "Successfully deleted the blog"})
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+})
 
 module.exports = blogController

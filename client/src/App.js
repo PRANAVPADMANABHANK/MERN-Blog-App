@@ -20,7 +20,6 @@ function App() {
         <Route path="/create" element={<Create/>} />
         <Route path='/blogDetails/:id' element={user ? <BlogDetails /> : <Navigate to='/login' />} />
         <Route path='/updateBlog/:id' element={user ? <UpdateBlog /> : <Navigate to='/login' />} />
-
       </Routes>
     </Router>
   );

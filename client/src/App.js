@@ -6,6 +6,7 @@ import Login from './pages/login/Login';
 import {useSelector} from 'react-redux'
 import Create from './pages/create/Create';
 import BlogDetails from './pages/blogDetails/BlogDetails';
+import UpdateBlog from './pages/updateBlog/UpdateBlog';
 
 
 function App() {

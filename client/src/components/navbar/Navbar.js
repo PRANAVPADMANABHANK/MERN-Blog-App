@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import classes from "./navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import womenImg from "../../assets/woman.jpg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/authSlice";
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
   
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const handleSubmit = () => {
+    dispatch(logout())
+    navigate("/login")
+    
+  }
   return (
     <div className={classes.container}>
       <div className={classes.wrapper}>
@@ -29,7 +37,7 @@ const Navbar = () => {
           {showModal && (
             <div className={classes.modal}>
               <Link to="/create">Create</Link>
-              <span>Logout</span>
+              <span onClick={handleSubmit}>Logout</span>
             </div>
           )}
           {!user ? (
